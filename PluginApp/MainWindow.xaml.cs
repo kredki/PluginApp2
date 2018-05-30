@@ -35,7 +35,7 @@ namespace PluginApp
             {
                 if (!file.Equals("PluginInterface.dll"))
                 {
-                    //var temp = Assembly.LoadFrom(file);
+                    //var temp = Assembly.LoadFrom(file);a
                     var temp = Assembly.LoadFile(file);
                     assemblyList.Add(temp);
                 }
