@@ -20,6 +20,9 @@ namespace PluginApp
 {
     public partial class MainWindow : Window
     {
+        System.Windows.Ink.StrokeCollection _added;
+        System.Windows.Ink.StrokeCollection _removed;
+        private bool handle = true;
         List<PluginInterface> plugins = new List<PluginInterface>();
         public MainWindow()
         {
@@ -55,6 +58,7 @@ namespace PluginApp
                 }
             }
             InkCanvas.DefaultDrawingAttributes.Color = Colors.Black;
+            InkCanvas.Strokes.StrokesChanged += Strokes_StrokesChanged;
 
             addMenuItems();
         }
@@ -101,6 +105,31 @@ namespace PluginApp
             (sender as Button).ContextMenu.PlacementTarget = (sender as Button);
             (sender as Button).ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
             (sender as Button).ContextMenu.IsOpen = true;
+        }
+
+        private void Strokes_StrokesChanged(object sender, System.Windows.Ink.StrokeCollectionChangedEventArgs e)
+        {
+            if (handle)
+            {
+                _added = e.Added;
+                _removed = e.Removed;
+            }
+        }
+
+        private void Undo_Click(object sender, RoutedEventArgs e)
+        {
+            handle = false;
+            InkCanvas.Strokes.Remove(_added);
+            InkCanvas.Strokes.Add(_removed);
+            handle = true;
+        }
+
+        private void Redo_Click(object sender, RoutedEventArgs e)
+        {
+            handle = false;
+            InkCanvas.Strokes.Add(_added);
+            InkCanvas.Strokes.Remove(_removed);
+            handle = true;
         }
     }
 }

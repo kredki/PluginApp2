@@ -9,13 +9,14 @@
     <Canvas>
         <Button Content="Color"
         Click="Button_Click"
-        ContextMenuService.IsEnabled="False" Canvas.Left="21" Canvas.Top="10">
+        ContextMenuService.IsEnabled="False" Canvas.Left="21" Canvas.Top="10" Width="40">
             <Button.ContextMenu>
                 <ContextMenu Name="ColorContexMenu">
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-        <InkCanvas Height="100" Canvas.Left="217" Canvas.Top="166" Width="100"/>
         <InkCanvas Name="InkCanvas" Height="334" Canvas.Left="10" Canvas.Top="76" Width="772"/>
+        <Button Content="Undo" Click="Undo_Click" Canvas.Left="78" Canvas.Top="10" Width="75"/>
+        <Button Content="Redo" Click="Redo_Click" Canvas.Left="170" Canvas.Top="10" Width="75"/>
     </Canvas>
 </Window>
