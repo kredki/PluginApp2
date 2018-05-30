@@ -18,9 +18,6 @@ using PluginInterfaceNamespace;
 
 namespace PluginApp
 {
-    /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         List<PluginInterface> plugins = new List<PluginInterface>();
@@ -35,7 +32,6 @@ namespace PluginApp
             {
                 if (!file.Equals("PluginInterface.dll"))
                 {
-                    //var temp = Assembly.LoadFrom(file);a
                     var temp = Assembly.LoadFile(file);
                     assemblyList.Add(temp);
                 }
@@ -58,16 +54,7 @@ namespace PluginApp
                     plugins.Add((PluginInterface)o);
                 }
             }
-
-            String text = "";
-
-            foreach (PluginInterface plugin in plugins)
-            {
-                text += plugin.getName() + " ";
-            }
-
-            PluginTextBox.Text = text;
-            InkCanvas.DefaultDrawingAttributes.Color = Colors.Gold;
+            InkCanvas.DefaultDrawingAttributes.Color = Colors.Black;
 
             addMenuItems();
         }
@@ -115,84 +102,5 @@ namespace PluginApp
             (sender as Button).ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
             (sender as Button).ContextMenu.IsOpen = true;
         }
-
-
-        /*private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            (sender as Button).ContextMenu.IsEnabled = true;
-            (sender as Button).ContextMenu.PlacementTarget = (sender as Button);
-            (sender as Button).ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
-            (sender as Button).ContextMenu.IsOpen = true;
-            //ColorContexMenu.Items.Add(new MenuItem().Header = "Black");
-
-            MenuItem mi1 = new MenuItem();
-
-            mi1.Header = "Black";
-
-            mi1.Click += new RoutedEventHandler(CommonHandler);
-
-            ColorContexMenu.Items.Add(mi1);
-
-            foreach (PluginInterface plugin in plugins)
-            {
-                //ColorContexMenu.Items.Add(new MenuItem().Header = plugin.getName());
-
-                MenuItem mi = new MenuItem();
-
-                mi.Header = plugin.getName();
-
-                mi.Click += new RoutedEventHandler(CommonHandler);
-
-                ColorContexMenu.Items.Add(mi);
-            }
-
-        }*/
-
-        /*private void CommonHandler(object sender, RoutedEventArgs e)
-        {
-
-            //MenuItem mi = e.Source as MenuItem;
-            MenuItem mi = (MenuItem)sender;
-
-            if (mi.Name.Equals("Black"))
-            {
-                inkCanvas1.DefaultDrawingAttributes.Color = Colors.Black;
-            } else
-            {
-                foreach (PluginInterface plugin in plugins)
-                {
-                    if (mi.Name.Equals(plugin.getName()))
-                    {
-                        inkCanvas1.DefaultDrawingAttributes.Color = Colors.Green;
-                        break;
-                    }
-                }
-            }
-
-        }
-        */
-
-        /*private void CommonHandler(object sender, RoutedEventArgs e)
-        {
-
-            MenuItem mi = (MenuItem)sender; // That's the sepcific item that has been clicked.
-
-            if (mi.Name.Equals("Black"))
-            {
-                inkCanvas1.DefaultDrawingAttributes.Color = Colors.Black;
-            }
-            else
-            {
-                foreach (PluginInterface plugin in plugins)
-                {
-                    if (mi.Name.Equals(plugin.getName()))
-                    {
-                        inkCanvas1.DefaultDrawingAttributes.Color = Colors.Green;
-                        break;
-                    }
-                }
-            }
-
-        }*/
     }
 }
