@@ -20,8 +20,10 @@ namespace PluginApp
 {
     public partial class MainWindow : Window
     {
-        System.Windows.Ink.StrokeCollection _added;
-        System.Windows.Ink.StrokeCollection _removed;
+        //System.Windows.Ink.StrokeCollection _added;
+        //System.Windows.Ink.StrokeCollection _removed;
+        System.Windows.Ink.StrokeCollection addedStrokes;
+        System.Windows.Ink.StrokeCollection removedStrokes;
         private bool handle = true;
         List<PluginInterface> plugins = new List<PluginInterface>();
         public MainWindow()
@@ -59,6 +61,8 @@ namespace PluginApp
             }
             InkCanvas.DefaultDrawingAttributes.Color = Colors.Black;
             InkCanvas.Strokes.StrokesChanged += Strokes_StrokesChanged;
+            addedStrokes = new System.Windows.Ink.StrokeCollection();
+            removedStrokes = new System.Windows.Ink.StrokeCollection();
 
             addMenuItems();
         }
@@ -109,27 +113,49 @@ namespace PluginApp
 
         private void Strokes_StrokesChanged(object sender, System.Windows.Ink.StrokeCollectionChangedEventArgs e)
         {
-            if (handle)
+            /*if (handle)
             {
                 _added = e.Added;
                 _removed = e.Removed;
+            }*/
+            if (e.Added != null)
+            {
+                addedStrokes.Add(e.Added);
+                removedStrokes.Clear();
             }
         }
 
         private void Undo_Click(object sender, RoutedEventArgs e)
         {
+            /*
             handle = false;
             InkCanvas.Strokes.Remove(_added);
             InkCanvas.Strokes.Add(_removed);
-            handle = true;
+            handle = true;*/
+
+            if (addedStrokes.Count != 0)
+            {
+                removedStrokes.Add(addedStrokes.ElementAt(addedStrokes.Count - 1));
+                addedStrokes.RemoveAt(addedStrokes.Count - 1);
+            }
+
+            InkCanvas.Strokes = addedStrokes;
         }
 
         private void Redo_Click(object sender, RoutedEventArgs e)
         {
-            handle = false;
+            /*handle = false;
             InkCanvas.Strokes.Add(_added);
             InkCanvas.Strokes.Remove(_removed);
-            handle = true;
+            handle = true;*/
+
+            if (removedStrokes.Count != 0)
+            {
+                addedStrokes.Add(removedStrokes.ElementAt(removedStrokes.Count - 1));
+                removedStrokes.RemoveAt(removedStrokes.Count - 1);
+            }
+
+            InkCanvas.Strokes = addedStrokes;
         }
     }
 }
