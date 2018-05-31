@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Canvas>
-        <Button Content="Color"
+        <Button Name="colorBtn" Content="Color"
         Click="Button_Click"
         ContextMenuService.IsEnabled="False" Canvas.Left="21" Canvas.Top="10" Width="40">
             <Button.ContextMenu>
@@ -16,7 +16,8 @@
             </Button.ContextMenu>
         </Button>
         <InkCanvas Name="InkCanvas" Height="334" Canvas.Left="10" Canvas.Top="76" Width="772"/>
-        <Button Content="Undo" Click="Undo_Click" Canvas.Left="78" Canvas.Top="10" Width="75"/>
-        <Button Content="Redo" Click="Redo_Click" Canvas.Left="170" Canvas.Top="10" Width="75"/>
+        <Button Name="uddoBtn" Content="Undo" Click="Undo_Click" Canvas.Left="78" Canvas.Top="10" Width="75"/>
+        <Button Name="redoBtn" Content="Redo" Click="Redo_Click" Canvas.Left="170" Canvas.Top="10" Width="75"/>
+        <Button Name="changeLngBtn" Content="ChangeLanguage" Click="ChangeLng" Canvas.Left="261" Canvas.Top="10" Width="122"/>
     </Canvas>
 </Window>

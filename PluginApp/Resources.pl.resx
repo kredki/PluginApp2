@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Black" xml:space="preserve">
-    <value>Black</value>
+    <value>Czarny</value>
   </data>
   <data name="Changelanguage" xml:space="preserve">
-    <value>Change language</value>
+    <value>Zmień język</value>
   </data>
   <data name="Color" xml:space="preserve">
-    <value>Color</value>
+    <value>Kolor</value>
   </data>
   <data name="Redo" xml:space="preserve">
-    <value>Redo</value>
+    <value>Wróć</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Cofnij</value>
   </data>
 </root>
