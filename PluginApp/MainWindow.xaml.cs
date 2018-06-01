@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -27,6 +28,8 @@ namespace PluginApp
         //System.Windows.Ink.StrokeCollection _removed;
         System.Windows.Ink.StrokeCollection addedStrokes;
         System.Windows.Ink.StrokeCollection removedStrokes;
+        Stack<System.Windows.Ink.StrokeCollection> addedStrokes2;
+        Stack<System.Windows.Ink.StrokeCollection> removedStrokes2;
         ResourceManager rm;
         private bool handle = true;
         List<PluginInterface> plugins = new List<PluginInterface>();
@@ -75,6 +78,8 @@ namespace PluginApp
             InkCanvas.Strokes.StrokesChanged += Strokes_StrokesChanged;
             addedStrokes = new System.Windows.Ink.StrokeCollection();
             removedStrokes = new System.Windows.Ink.StrokeCollection();
+            addedStrokes2 = new Stack<System.Windows.Ink.StrokeCollection>();
+            removedStrokes2 = new Stack<System.Windows.Ink.StrokeCollection>();
 
             addMenuItems();
         }
@@ -130,10 +135,20 @@ namespace PluginApp
                 _added = e.Added;
                 _removed = e.Removed;
             }*/
-            if (e.Added != null)
+            if (handle)
             {
-                addedStrokes.Add(e.Added);
-                removedStrokes.Clear();
+                if (e.Added != null)
+                {
+                    //addedStrokes.Add(e.Added);
+                    //removedStrokes.Clear();
+
+                    addedStrokes2.Push(e.Added);
+                    removedStrokes2.Clear();
+                }
+                if (e.Removed != null)
+                {
+                    removedStrokes2.Push(e.Removed);
+                }
             }
         }
 
@@ -145,13 +160,27 @@ namespace PluginApp
             InkCanvas.Strokes.Add(_removed);
             handle = true;*/
 
-            if (addedStrokes.Count != 0)
+            /*if (addedStrokes.Count != 0)
             {
                 removedStrokes.Add(addedStrokes.ElementAt(addedStrokes.Count - 1));
                 addedStrokes.RemoveAt(addedStrokes.Count - 1);
             }
 
-            InkCanvas.Strokes = addedStrokes;
+            InkCanvas.Strokes = addedStrokes;*/
+
+            /*if(addedStrokes2.Count != 0)
+            {
+                removedStrokes2.Push(addedStrokes2.Pop());
+            }*/
+
+            if (addedStrokes2.Count != 0)
+            {
+                handle = false;
+                var stroke = addedStrokes2.Pop();
+                InkCanvas.Strokes.Remove(stroke);
+                removedStrokes2.Push(stroke);
+                handle = true;
+            }
         }
 
         private void Redo_Click(object sender, RoutedEventArgs e)
@@ -161,13 +190,30 @@ namespace PluginApp
             InkCanvas.Strokes.Remove(_removed);
             handle = true;*/
 
-            if (removedStrokes.Count != 0)
+            /*if (removedStrokes.Count != 0)
             {
                 addedStrokes.Add(removedStrokes.ElementAt(removedStrokes.Count - 1));
                 removedStrokes.RemoveAt(removedStrokes.Count - 1);
             }
 
-            InkCanvas.Strokes = addedStrokes;
+            InkCanvas.Strokes = addedStrokes;*/
+
+            /*if(removedStrokes2.Count != 0)
+            {
+                addedStrokes2.Push(removedStrokes2.Pop());
+            }
+            var array = addedStrokes2.ToArray();
+            List<InkCanvas> list = array.OfType<InkCanvas>().ToList();
+            InkCanvas = list;*/
+
+            if (removedStrokes2.Count != 0)
+            {
+                handle = false;
+                var stroke = removedStrokes2.Pop();
+                InkCanvas.Strokes.Add(stroke);
+                addedStrokes2.Push(stroke);
+                handle = true;
+            }
         }
 
         private void ChangeLng(object sender, RoutedEventArgs e)
