@@ -46,7 +46,7 @@ namespace PluginApp
             List<Assembly> assemblyList = new List<Assembly>();
             foreach (string file in Directory.EnumerateFiles(folderPath, "*.dll"))
             {
-                if (!file.Equals("PluginInterface.dll"))
+                //if (!file.Equals("PluginInterface.dll"))
                 {
                     var temp = Assembly.LoadFile(file);
                     assemblyList.Add(temp);
@@ -56,14 +56,39 @@ namespace PluginApp
             foreach (Assembly assembly in assemblyList)
             {
                 System.Type t1 = null;
-                foreach (var t in assembly.GetTypes())
+                try
                 {
-                    if (t.IsClass && t.IsPublic && typeof(PluginInterface).IsAssignableFrom(t))
+                    foreach (var t in assembly.GetTypes())
                     {
-                        t1 = t;
-                        break;
+                        if (t.IsClass && t.IsPublic && typeof(PluginInterface).IsAssignableFrom(t))
+                        {
+                            t1 = t;
+                            break;
+                        }
                     }
                 }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (Exception exSub in ex.LoaderExceptions)
+                    {
+                        sb.AppendLine(exSub.Message);
+                        FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                        if (exFileNotFound != null)
+                        {
+                            if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                            {
+                                sb.AppendLine("Fusion Log:");
+                                sb.AppendLine(exFileNotFound.FusionLog);
+                            }
+                        }
+                        sb.AppendLine();
+                    }
+                    string errorMessage = sb.ToString();
+                    //Display or log the error based on your application.
+                    Console.WriteLine(sb);
+                }
+
                 if (t1 != null)
                 {
                     var o = Activator.CreateInstance(t1);
@@ -161,14 +186,16 @@ namespace PluginApp
 
         private void ChangeLng(object sender, RoutedEventArgs e)
         {
+            String lng = "en";
             if(Thread.CurrentThread.CurrentUICulture.Equals(new CultureInfo("pl")))
             {
-                Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("en");
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(lng);
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(lng);
             } else
             {
-                Thread.CurrentThread.CurrentUICulture = new CultureInfo("pl");
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("pl");
+                lng = "pl";
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(lng);
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(lng);
             }
             Assembly a = Assembly.Load("PluginApp");
             rm = new ResourceManager("PluginApp.Resources", a);
@@ -176,6 +203,11 @@ namespace PluginApp
             uddoBtn.Content = rm.GetString("Undo");
             redoBtn.Content = rm.GetString("Redo");
             changeLngBtn.Content = rm.GetString("Changelanguage");
+
+            foreach (PluginInterface plugin in plugins)
+            {
+                plugin.setLng(lng);
+            }
 
             var menuItems = ColorContexMenu.Items.Cast<MenuItem>().ToArray();
             foreach (MenuItem menuItem in menuItems)

@@ -7,9 +7,8 @@ namespace Plugin2Namespace
 {
     public class Plugin2 : PluginInterface
     {
-        public bool setLng()
+        public void setLng(String lng)
         {
-            return true;
         }
         public String getName()
         {

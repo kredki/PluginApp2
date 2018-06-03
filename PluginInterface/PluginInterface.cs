@@ -9,7 +9,7 @@ namespace PluginInterfaceNamespace
 {
     public interface PluginInterface
     {
-        //bool setLng();
+        void setLng(String lng);
         String getName();
         Color getColor();
     }
