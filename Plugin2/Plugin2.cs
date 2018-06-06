@@ -7,12 +7,22 @@ namespace Plugin2Namespace
 {
     public class Plugin2 : PluginInterface
     {
+        private bool isEnglish = false;
         public void setLng(String lng)
         {
+            if (lng.Equals("en"))
+                isEnglish = true;
+            else
+                isEnglish = false;
         }
         public String getName()
         {
-            return "Blue";
+            if (isEnglish)
+            {
+                return "Blue";
+            }
+            else
+                return "Niebieski";
         }
 
         public Color getColor()

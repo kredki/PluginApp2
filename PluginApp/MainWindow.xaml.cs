@@ -209,7 +209,7 @@ namespace PluginApp
 
             foreach (PluginInterface plugin in plugins)
             {
-                //plugin.setLng(lng);
+                plugin.setLng(lng);
             }
 
             var menuItems = ColorContexMenu.Items.Cast<MenuItem>().ToArray();

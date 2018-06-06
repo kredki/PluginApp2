@@ -10,15 +10,22 @@ namespace Plugin3Namespace
 {
     public class Plugin3 : PluginInterface
     {
+        private bool isEnglish = false;
         public void setLng(String lng)
         {
+            if (lng.Equals("en"))
+                isEnglish = true;
+            else
+                isEnglish = false;
         }
         public String getName()
         {
-            /*Assembly a = Assembly.Load("Plugin");
-            ResourceManager rm = new ResourceManager("Plugin.Resources", a);
-            return rm.GetString("Name");*/
-            return "Pink";
+            if (isEnglish)
+            {
+                return "Pink";
+            }
+            else
+                return "Różowy";
         }
 
         public Color getColor()
