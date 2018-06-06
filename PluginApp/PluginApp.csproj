@@ -98,7 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PluginInterface\PluginInterface.csproj">
-      <Project>{d75b4b21-537d-4915-bf9c-30e133013ed1}</Project>
+      <Project>{77574385-dcef-4aa6-8d96-d147418a46aa}</Project>
       <Name>PluginInterface</Name>
     </ProjectReference>
   </ItemGroup>

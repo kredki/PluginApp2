@@ -17,9 +17,10 @@ namespace PluginNamespace
         }
         public String getName()
         {
-            Assembly a = Assembly.Load("Plugin");
+            /*Assembly a = Assembly.Load("Plugin");
             ResourceManager rm = new ResourceManager("Plugin.Resources", a);
-            return rm.GetString("Name");
+            return rm.GetString("Name");*/
+            return "Green";
         }
 
         public Color getColor()

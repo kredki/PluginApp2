@@ -41,14 +41,17 @@ namespace PluginApp
             redoBtn.Content = rm.GetString("Redo");
             changeLngBtn.Content = rm.GetString("Changelanguage");
 
-            String folderPath = @"L:\vcprojekty\PluginApp\plugins\netstandard2.0";
+            //String folderPath = @"L:\vcprojekty\PluginApp2\plugins\netstandard2.0";
+            String folderPath = @"..\..\..\plugins\netstandard2.0";
+            //String folderPath = @"X:\PluginApp2\plugins\netstandard2.0";
 
             List<Assembly> assemblyList = new List<Assembly>();
             foreach (string file in Directory.EnumerateFiles(folderPath, "*.dll"))
             {
                 //if (!file.Equals("PluginInterface.dll"))
                 {
-                    var temp = Assembly.LoadFile(file);
+                    //var temp = Assembly.LoadFile(file);
+                    var temp = Assembly.LoadFile(System.IO.Path.GetFullPath(file));
                     assemblyList.Add(temp);
                 }
             }
@@ -206,7 +209,7 @@ namespace PluginApp
 
             foreach (PluginInterface plugin in plugins)
             {
-                plugin.setLng(lng);
+                //plugin.setLng(lng);
             }
 
             var menuItems = ColorContexMenu.Items.Cast<MenuItem>().ToArray();
